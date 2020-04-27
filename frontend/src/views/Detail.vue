@@ -1,14 +1,29 @@
 <template>
-  <div>
-    <div>ID: {{note.id}}</div>
-    <div>Title: {{note.title}}</div>
-    <div>Content: {{note.content}}</div>
-  </div>
+  <Layout>
+    <v-container>
+      <v-card class="mx-auto" color="#2196f3" dark max-width="400">
+        <v-card-title>
+          <v-icon large left>
+            mdi-message-text
+          </v-icon>
+          <span class="title font-weight-bold"> {{ note.title }}</span>
+        </v-card-title>
+
+        <v-card-text class="headline font-weight-light">
+          {{ note.content }}
+        </v-card-text>
+      </v-card>
+    </v-container>
+  </Layout>
 </template>
 
 <script>
+import Layout from "./Layout";
 export default {
   name: "Detail",
+  components: {
+    Layout
+  },
   computed: {
     note() {
       return (
@@ -20,4 +35,7 @@ export default {
 </script>
 
 <style scoped>
+div.v-card {
+  margin-top: 10%;
+}
 </style>
