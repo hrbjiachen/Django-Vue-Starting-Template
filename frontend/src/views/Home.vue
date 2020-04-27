@@ -11,7 +11,7 @@
     </form>
 
     <div>
-      <table>
+      <table id="list">
         <thead>
           <td>Title</td>
           <td>Content</td>
@@ -20,7 +20,9 @@
         </thead>
         <tbody>
           <tr v-for="note in notes" :key="note.id">
-            <td>{{ note.title }}</td>
+            <router-link :to="{name:'Detail', params: {id:note.id}}">
+              <td>{{ note.title }}</td>
+            </router-link>
             <td>{{ note.content }}</td>
             <td>{{ note.created }}</td>
             <td>
@@ -47,16 +49,21 @@ export default {
         title: "",
         content: ""
       },
-      notes: [],
       message: ""
     };
   },
-  created() {
-    this.fetchNotes();
+  computed: {
+    notes() {
+      return this.$store.state.notes;
+    }
   },
   methods: {
     submitNote() {
       this.handlePromise(api.addNote, [this.formData]);
+      this.formData = {
+        title: "",
+        content: ""
+      };
     },
     deleteNote(id) {
       this.handlePromise(api.deleteNote, [id]);
@@ -66,12 +73,15 @@ export default {
         this.message = err.response.data;
       });
       this.message = response.data;
-      this.fetchNotes();
-    },
-    async fetchNotes() {
-      const response = await api.fetchNotes();
-      this.notes = response.data;
+      this.$store.dispatch("loadNotes");
     }
   }
 };
 </script>
+
+<style scoped>
+table#list {
+  width: 60%;
+  table-layout: auto;
+}
+</style>

@@ -6,11 +6,11 @@ from vuenote.models import Note
 
 # Create your views here.
 
-
+"""
 class NoteViewSet(viewsets.ModelViewSet):
     # check permissions
     permission_classes = (
-        permissions.IsAuthenticated,
+        permissions.AllowAny,
     )
 
     serializer_class = NoteSerializer
@@ -21,4 +21,11 @@ class NoteViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
+    lookup_field = 'id'
+"""
+
+
+class NoteViewSet(viewsets.ModelViewSet):
+    queryset = Note.objects.all()
+    serializer_class = NoteSerializer
     lookup_field = 'id'
