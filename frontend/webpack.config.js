@@ -7,7 +7,7 @@ module.exports = {
   entry: "./src/main.js",
   output: {
     path: path.resolve(__dirname, "../static/"),
-    //publicPath: "http://localhost:8080/dist/",
+    publicPath: "http://localhost:8000/static/",
     filename: "build.js"
   },
   module: {

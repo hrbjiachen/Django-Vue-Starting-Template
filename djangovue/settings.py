@@ -125,7 +125,7 @@ STATICFILES_DIRS = [
 ]
 
 # webpack loader
-"""
+
 WEBPACK_LOADER = {
     'DEFAULT': {
         'CACHE': not DEBUG,
@@ -136,4 +136,3 @@ WEBPACK_LOADER = {
         'IGNORE': [r'.+\.hot-update.js', r'.+\.map'],
     }
 }
-"""

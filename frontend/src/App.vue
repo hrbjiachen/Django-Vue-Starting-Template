@@ -1,79 +1,32 @@
 <template>
   <div id="app">
-    <form v-on:submit.prevent="submitNote">
-      <div>
-        <label>Title</label>
-        <input type="text" v-model="formData.title" />
-        <label>Content</label>
-        <textarea type="text" v-model="formData.content"></textarea>
-      </div>
-      <button type="submit">Submit</button>
-    </form>
-
-    <div>
-      <table>
-        <thead>
-          <td>Title</td>
-          <td>Content</td>
-          <td>Created</td>
-          <td>Action</td>
-        </thead>
-        <tbody>
-          <tr v-for="note in notes" :key="note.id">
-            <td>{{ note.title }}</td>
-            <td>{{ note.content }}</td>
-            <td>{{ note.created }}</td>
-            <td>
-              <button @click="deleteNote(note.id)">delete</button>
-            </td>
-          </tr>
-        </tbody>
-        <tbody></tbody>
-      </table>
+    <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link>
     </div>
-    <hr />
-    <div>{{ message }}</div>
+    <router-view />
   </div>
 </template>
 
-<script>
-import api from "./api/index";
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
 
-export default {
-  name: "app",
-  data() {
-    return {
-      formData: {
-        title: "",
-        content: ""
-      },
-      notes: [],
-      message: ""
-    };
-  },
-  created() {
-    this.fetchNotes();
-  },
-  methods: {
-    submitNote() {
-      this.handlePromise(api.addNote, [this.formData]);
-    },
-    deleteNote(id) {
-      this.handlePromise(api.deleteNote, [id]);
-    },
-    async handlePromise(func, params) {
-      const response = await func(...params).catch(err => {
-        this.message = err.response.data;
-      });
-      this.message = response.data;
-      this.fetchNotes();
-    },
-    async fetchNotes() {
-      const response = await api.fetchNotes();
-      this.notes = response.data;
-    }
-  }
-};
-</script>
+#nav {
+  padding: 30px;
+}
 
-<style></style>
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
+}
+</style>
