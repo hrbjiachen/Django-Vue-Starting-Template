@@ -12,7 +12,7 @@ npm run build
 
 ```
 
-- Start the server
+- Start the server(root directory)
 
 ```cmd
 python manage.py runserver

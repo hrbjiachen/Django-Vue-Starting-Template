@@ -10,8 +10,15 @@ from vuenote.models import Note
 class NoteViewSet(viewsets.ModelViewSet):
     # check permissions
     permission_classes = (
-        permissions.AllowAny,
+        permissions.IsAuthenticated,
     )
-    queryset = Note.objects.all()
+
     serializer_class = NoteSerializer
+
+    def get_queryset(self):
+        return self.request.user.notes.all()
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
     lookup_field = 'id'
