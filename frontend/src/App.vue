@@ -1,11 +1,9 @@
 <template>
   <v-app>
     <router-view />
-    <v-snackbar v-model="show" top :color="color" :timeout="timeout">
+    <v-snackbar v-model="show" bottom :color="color" :timeout="timeout">
       {{ message }}
-      <v-btn @click="snackbar = false" text>
-        Close
-      </v-btn>
+      <v-btn @click="snackbar = false" text>Close</v-btn>
     </v-snackbar>
   </v-app>
 </template>

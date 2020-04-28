@@ -11,7 +11,9 @@ export default new Vuex.Store({
       show: false,
       color: "",
       message: ""
-    }
+    },
+    token: "",
+    user: null
   },
   mutations: {
     SET_NOTES(state, notes) {
@@ -22,6 +24,12 @@ export default new Vuex.Store({
     },
     updateSnackbarStatus(state, show) {
       state.snackbar.show = show;
+    },
+    SET_TOKEN(state, token) {
+      state.token = token;
+    },
+    SET_USER(state, user) {
+      state.user = user;
     }
   },
   actions: {
@@ -31,6 +39,16 @@ export default new Vuex.Store({
     },
     showMessage: ({ commit }, snackbar) => {
       commit("SET_SNACKBAR", snackbar);
+    },
+    login: ({ commit }, data) => {
+      const { user, token } = data;
+      commit("SET_TOKEN", token);
+      commit("SET_USER", user);
+    },
+    logout: async ({ commit, state }) => {
+      await api.logout(state.token);
+      commit("SET_TOKEN", "");
+      commit("SET_USER", null);
     }
   },
   modules: {}
