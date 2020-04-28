@@ -6,7 +6,7 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
 
-      <span v-if="user">
+      <span v-if="auth">
         <span>Hello, {{user.username}}!</span>
         <v-btn class="mx-2 red--text" text @click="dialog=true">Logout</v-btn>
       </span>
@@ -50,12 +50,15 @@ export default {
   },
   computed: {
     ...mapState({
-      user: state => state.user
-    })
+      user: state => state.user || {}
+    }),
+    auth() {
+      return this.$store.getters.isAuthenticated;
+    }
   },
   methods: {
     logout() {
-      this.$store.dispatch("logout");
+      this.$store.dispatch("AUTH_LOGOUT");
       this.dialog = false;
     }
   }

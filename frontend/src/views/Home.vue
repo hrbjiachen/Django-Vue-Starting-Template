@@ -41,14 +41,15 @@
 <script>
 import api from "../api/index";
 import Layout from "./Layout";
+import { mapState } from "vuex";
 
 export default {
   name: "Home",
   components: {
     Layout
   },
-  created() {
-    this.$store.dispatch("loadNotes");
+  mounted() {
+    this.$store.dispatch("LOAD_NOTES");
   },
   data() {
     return {
@@ -59,15 +60,16 @@ export default {
     };
   },
   computed: {
-    notes() {
-      return this.$store.state.notes;
-    }
+    ...mapState({
+      notes: state => state.notes,
+      token: state => state.token
+    })
   },
   methods: {
     submitNote() {
       this.handlePromise(
         api.addNote,
-        [this.formData],
+        [this.formData, this.token],
         "Note added succesfully!"
       );
       this.formData = {
@@ -76,19 +78,23 @@ export default {
       };
     },
     deleteNote(id) {
-      this.handlePromise(api.deleteNote, [id], "Note deleted succesfully!");
+      this.handlePromise(
+        api.deleteNote,
+        [id, this.token],
+        "Note deleted succesfully!"
+      );
     },
     async handlePromise(func, params, successMsg) {
       try {
         const response = await func(...params);
-        this.$store.dispatch("showMessage", {
+        this.$store.dispatch("SHOW_MESSAGE", {
           show: true,
           color: "success",
           message: successMsg
         });
-        this.$store.dispatch("loadNotes");
+        this.$store.dispatch("LOAD_NOTES");
       } catch (error) {
-        this.$store.dispatch("showMessage", {
+        this.$store.dispatch("SHOW_MESSAGE", {
           show: true,
           color: "error",
           message: error.response.data

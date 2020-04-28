@@ -1,19 +1,16 @@
 import axios from "axios";
 
 export default {
-  fetchNotes: () => callServer("/api/notes/", "get"),
-  addNote: data => callServer("/api/notes/", "post", data),
-  deleteNote: id => callServer(`/api/notes/${id}`, "delete"),
+  fetchNotes: token => callServer("/api/notes/", "get", null, tokenUtil(token)),
+  addNote: (data, token) =>
+    callServer("/api/notes/", "post", data, tokenUtil(token)),
+  deleteNote: (id, token) =>
+    callServer(`/api/notes/${id}`, "delete", tokenUtil(token)),
   login: data => callServer("api/auth/login", "post", data),
   logout: token =>
-    callServer("api/auth/logout", "post", null, {
-      Authorization: `Token ${token}`
-    }),
+    callServer("api/auth/logout", "post", null, tokenUtil(token)),
   register: data => callServer("api/auth/register", "post", data),
-  getUser: token =>
-    callServer("api/auth/user", "get", null, {
-      Authorization: `Token ${token}`
-    })
+  getUser: token => callServer("api/auth/user", "get", null, tokenUtil(token))
 };
 
 /**
@@ -40,4 +37,10 @@ function callServer(url, method, data = {}, headers = {}) {
       }
     );
   });
+}
+
+function tokenUtil(token) {
+  return {
+    Authorization: `Token ${token}`
+  };
 }

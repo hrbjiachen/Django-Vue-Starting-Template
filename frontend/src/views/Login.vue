@@ -116,14 +116,16 @@ export default {
   },
   methods: {
     async login() {
+      let data = {
+        username: this.loginUsername,
+        password: this.loginPassword
+      };
+
       try {
-        const response = await api.login({
-          username: this.loginUsername,
-          password: this.loginPassword
-        });
-        this.$store.dispatch("login", response.data);
+        await this.$store.dispatch("AUTH_REQUEST", data);
         this.$router.push("/");
       } catch (error) {
+        console.log(error);
         this.loginFail = true;
       }
     },

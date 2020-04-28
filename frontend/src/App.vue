@@ -20,9 +20,8 @@ export default {
     };
   },
   created() {
-    const token = localStorage.getItem("token");
-    if (token !== "undefined" && token) {
-      this.verifyToken(token);
+    if (this.$store.getters.isAuthenticated && !this.$store.state.user) {
+      this.$store.dispatch("RE_AUTH");
     }
   },
   computed: {
@@ -35,20 +34,7 @@ export default {
         return this.$store.state.snackbar.show;
       },
       set(value) {
-        this.$store.commit("updateSnackbarStatus", value);
-      }
-    }
-  },
-  methods: {
-    async verifyToken(token) {
-      try {
-        const response = await api.getUser(token);
-        this.$store.dispatch("login", { user: response.data, token });
-        if (this.$router.currentRoute.path != "/") {
-          this.$router.push("/");
-        }
-      } catch (error) {
-        // no valid session
+        this.$store.commit("SHOW_SNACKBAR", value);
       }
     }
   }
