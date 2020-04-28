@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <v-container>
-      <v-card class="mx-auto" color="#2196f3" dark max-width="400">
+      <v-card class="mx-auto" color="blue lighten-1" dark max-width="400">
         <v-card-title>
           <v-icon large left>
             mdi-message-text

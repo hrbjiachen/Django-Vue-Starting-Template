@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar app>
       <v-toolbar-title class="headline text-uppercase">
-        <span><router-link to="/">Django-Vue Template</router-link></span>
+        <router-link to="/">Django-Vue Template</router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn text>
@@ -11,10 +11,13 @@
     </v-app-bar>
 
     <v-content>
-      <div class="myContainer">
-        <slot></slot>
-      </div>
+      <slot></slot>
     </v-content>
+
+    <v-footer dark>
+      <v-spacer></v-spacer>
+      <div>&copy; {{ new Date().getFullYear() }}</div>
+    </v-footer>
   </v-app>
 </template>
 
@@ -25,11 +28,5 @@ export default {};
 <style scoped>
 .v-application a {
   text-decoration: none;
-}
-
-div.myContainer {
-  margin: 5px;
-  min-height: 45em;
-  background-color: #fafafa !important;
 }
 </style>

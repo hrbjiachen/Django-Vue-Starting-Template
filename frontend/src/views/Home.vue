@@ -1,8 +1,8 @@
 <template>
   <Layout>
-    <v-card class="mx-auto" outlined>
-      <div class="form">
-        <h2>Add Note to test RESTful APIs</h2>
+    <div class="d-flex flex-wrap">
+      <v-card class="mx-auto mt-8 mr-4 pa-10 align-self-start" outlined>
+        <div class="display-1">Add Note to test RESTful APIs</div>
         <form v-on:submit.prevent="submitNote">
           <v-text-field
             v-model="formData.title"
@@ -15,13 +15,12 @@
             label="Content"
             hint="Content"
           ></v-textarea>
-          <v-btn class="mr-4" type="submit">submit</v-btn>
+          <v-btn color="primary" type="submit">submit</v-btn>
         </form>
-      </div>
-    </v-card>
+      </v-card>
 
-    <v-card class="mx-auto" outlined>
-      <div class="list">
+      <v-card class="mx-auto mt-8 pa-10" outlined>
+        <div class="display-1">Note List</div>
         <v-simple-table>
           <template v-slot:default>
             <thead>
@@ -45,11 +44,8 @@
             <tbody></tbody>
           </template>
         </v-simple-table>
-      </div>
-    </v-card>
-
-    <hr />
-    <div>{{ message }}</div>
+      </v-card>
+    </div>
   </Layout>
 </template>
 
@@ -67,8 +63,7 @@ export default {
       formData: {
         title: "",
         content: ""
-      },
-      message: ""
+      }
     };
   },
   computed: {
@@ -78,34 +73,46 @@ export default {
   },
   methods: {
     submitNote() {
-      this.handlePromise(api.addNote, [this.formData]);
+      this.handlePromise(
+        api.addNote,
+        [this.formData],
+        "Note added succesfully!"
+      );
       this.formData = {
         title: "",
         content: ""
       };
     },
     deleteNote(id) {
-      this.handlePromise(api.deleteNote, [id]);
+      this.handlePromise(api.deleteNote, [id], "Note deleted succesfully!");
     },
-    async handlePromise(func, params) {
-      const response = await func(...params).catch(err => {
-        this.message = err.response.data;
-      });
-      this.message = response.data;
-      this.$store.dispatch("loadNotes");
+    async handlePromise(func, params, successMsg) {
+      try {
+        const response = await func(...params);
+        this.$store.dispatch("showMessage", {
+          show: true,
+          color: "success",
+          message: successMsg
+        });
+        this.$store.dispatch("loadNotes");
+      } catch (error) {
+        this.$store.dispatch("showMessage", {
+          show: true,
+          color: "error",
+          message: error.response.data
+        });
+      }
     }
   }
 };
 </script>
 
 <style scoped>
-div.form,
-div.list {
-  padding: 40px;
-  margin: auto;
+div.v-card:first-child {
+  flex: 1;
 }
 
-div.v-card {
-  margin-bottom: 10px;
+div.v-card:nth-child(2) {
+  flex: 2;
 }
 </style>
