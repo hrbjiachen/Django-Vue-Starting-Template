@@ -10,6 +10,7 @@
 
 <script>
 import { mapState } from "vuex";
+import api from "./api/index";
 
 export default {
   name: "app",
@@ -19,7 +20,10 @@ export default {
     };
   },
   created() {
-    this.$store.dispatch("loadNotes");
+    const token = localStorage.getItem("token");
+    if (token !== "undefined" && token) {
+      this.verifyToken(token);
+    }
   },
   computed: {
     ...mapState({
@@ -32,6 +36,19 @@ export default {
       },
       set(value) {
         this.$store.commit("updateSnackbarStatus", value);
+      }
+    }
+  },
+  methods: {
+    async verifyToken(token) {
+      try {
+        const response = await api.getUser(token);
+        this.$store.dispatch("login", { user: response.data, token });
+        if (this.$router.currentRoute.path != "/") {
+          this.$router.push("/");
+        }
+      } catch (error) {
+        // no valid session
       }
     }
   }

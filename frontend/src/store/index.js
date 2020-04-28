@@ -44,11 +44,13 @@ export default new Vuex.Store({
       const { user, token } = data;
       commit("SET_TOKEN", token);
       commit("SET_USER", user);
+      localStorage.setItem("token", token);
     },
     logout: async ({ commit, state }) => {
       await api.logout(state.token);
       commit("SET_TOKEN", "");
       commit("SET_USER", null);
+      localStorage.removeItem("token");
     }
   },
   modules: {}

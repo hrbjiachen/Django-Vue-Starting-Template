@@ -4,17 +4,8 @@
       <v-card class="mx-auto mt-8 mr-4 pa-10 align-self-start" outlined>
         <div class="display-1">Add Note to test RESTful APIs</div>
         <form v-on:submit.prevent="submitNote">
-          <v-text-field
-            v-model="formData.title"
-            :counter="20"
-            label="Title"
-            required
-          ></v-text-field>
-          <v-textarea
-            v-model="formData.content"
-            label="Content"
-            hint="Content"
-          ></v-textarea>
+          <v-text-field v-model="formData.title" :counter="20" label="Title" required></v-text-field>
+          <v-textarea v-model="formData.content" label="Content" hint="Content"></v-textarea>
           <v-btn color="primary" type="submit">submit</v-btn>
         </form>
       </v-card>
@@ -35,9 +26,7 @@
                 </router-link>
                 <td>{{ note.created }}</td>
                 <td>
-                  <v-btn color="error" @click="deleteNote(note.id)"
-                    >delete</v-btn
-                  >
+                  <v-btn color="error" @click="deleteNote(note.id)">delete</v-btn>
                 </td>
               </tr>
             </tbody>
@@ -57,6 +46,9 @@ export default {
   name: "Home",
   components: {
     Layout
+  },
+  created() {
+    this.$store.dispatch("loadNotes");
   },
   data() {
     return {

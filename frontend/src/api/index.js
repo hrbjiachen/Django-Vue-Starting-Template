@@ -9,7 +9,11 @@ export default {
     callServer("api/auth/logout", "post", null, {
       Authorization: `Token ${token}`
     }),
-  register: data => callServer("api/auth/register", "post", data)
+  register: data => callServer("api/auth/register", "post", data),
+  getUser: token =>
+    callServer("api/auth/user", "get", null, {
+      Authorization: `Token ${token}`
+    })
 };
 
 /**
