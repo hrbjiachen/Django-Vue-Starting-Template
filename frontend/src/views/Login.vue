@@ -125,21 +125,21 @@ export default {
         await this.$store.dispatch("AUTH_REQUEST", data);
         this.$router.push("/");
       } catch (error) {
-        console.log(error);
         this.loginFail = true;
       }
     },
     async register() {
+      let data = {
+        username: this.username,
+        email: this.email,
+        password: this.password
+      };
       try {
-        const response = await api.register({
-          username: this.username,
-          email: this.email,
-          password: this.password
-        });
-        this.$store.dispatch("login", response.data);
+        const response = await api.register(data);
+        this.$store.commit("AUTH_SUCCESS", response.data);
         this.$router.push("/");
       } catch (error) {
-        this.loginFail = true;
+        //handle register fail
       }
     }
   },

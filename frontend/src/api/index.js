@@ -40,7 +40,9 @@ function callServer(url, method, data = {}, headers = {}) {
 }
 
 function tokenUtil(token) {
-  return {
-    Authorization: `Token ${token}`
-  };
+  return token
+    ? {
+        Authorization: `Token ${token}`
+      }
+    : null;
 }

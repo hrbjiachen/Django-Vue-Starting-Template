@@ -10,11 +10,11 @@
         <span>Hello, {{user.username}}!</span>
         <v-btn class="mx-2 red--text" text @click="dialog=true">Logout</v-btn>
       </span>
-      <v-btn v-else text>
-        <span class="mr-2">
-          <router-link to="/Login">Login</router-link>
-        </span>
-      </v-btn>
+      <router-link v-else to="/Login">
+        <v-btn text>
+          <span class="mr-2">Login</span>
+        </v-btn>
+      </router-link>
     </v-app-bar>
 
     <v-content>
