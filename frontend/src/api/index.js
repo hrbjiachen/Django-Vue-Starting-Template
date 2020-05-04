@@ -5,7 +5,7 @@ export default {
   addNote: (data, token) =>
     callServer("/api/notes/", "post", data, tokenUtil(token)),
   deleteNote: (id, token) =>
-    callServer(`/api/notes/${id}`, "delete", tokenUtil(token)),
+    callServer(`/api/notes/${id}`, "delete", null, tokenUtil(token)),
   login: data => callServer("api/auth/login", "post", data),
   logout: token =>
     callServer("api/auth/logout", "post", null, tokenUtil(token)),

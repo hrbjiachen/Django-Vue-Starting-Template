@@ -57,9 +57,10 @@ export default {
     }
   },
   methods: {
-    logout() {
-      this.$store.dispatch("AUTH_LOGOUT");
+    async logout() {
+      await this.$store.dispatch("AUTH_LOGOUT");
       this.dialog = false;
+      this.$router.push("login");
     }
   }
 };
