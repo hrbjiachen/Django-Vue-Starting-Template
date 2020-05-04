@@ -15,5 +15,6 @@ npm run build
 - Start the server(root directory)
 
 ```cmd
+python manage.py migrate
 python manage.py runserver
 ```
